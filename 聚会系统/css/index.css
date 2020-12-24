@@ -32,12 +32,19 @@ input{
 	width: 280px;
 	height: 30px;
 	margin-bottom: 25px;
+	outline:none;
+	font-size: 20px;
 }
 .login-button{
 	width: 250px;
 	height: 100%;
 	margin: 0 auto;
+	
 }
 button{
 	display: block;
+	width: 250px;
+	height: 25px;
+	margin-bottom: 10px;
+	
 }

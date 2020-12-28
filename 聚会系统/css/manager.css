@@ -75,3 +75,7 @@
   .el-table{
 	  
   }
+  .show_table{
+	  margin-left: 200px;
+	  float: left;
+  }

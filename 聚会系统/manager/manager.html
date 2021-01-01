@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="../css/manager.css" />
+		<link rel="stylesheet" type="text/css" href="../css/user.css" />
 		<!-- 引入样式 -->
 		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 		<!-- 引入组件库 -->
@@ -16,119 +16,34 @@
 				<el-container class="m-container">
 					<el-header>2021年1318班第一次聚会</el-header>
 					<el-tabs :tab-position="tabPosition" style="height: 200px;">
-						<el-tab-pane label="公告通知">
-							<el-main>
-								<div style="text-align: left;">
-									<span>2020-12-20</span>
-									<br />
-									<span>&emsp;&emsp;青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪</span>
-									<el-divider></el-divider>
-									<span>2020-12-20</span>
-									<br />
-									<span>&emsp;&emsp;青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪</span>
-									<el-divider></el-divider>
-								</div>
-							</el-main>
-						</el-tab-pane>
-						<el-tab-pane label="投票酒店">
+						<el-tab-pane label="发布公告通知">
 							<el-main>
 								<el-row :gutter="20">
-									<el-col :span="6">
-										<div class="grid-content bg-purple">
-											<el-radio v-model="radio" label="项家庄">项家庄</el-radio>
-										</div>
+									<el-col :span="16">
+										<el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="textarea">
+										</el-input>
 									</el-col>
-									<el-col :span="6">
-										<div class="grid-content bg-purple">
-											<el-radio v-model="radio" label="北京烤鸭">北京烤鸭</el-radio>
-										</div>
-									</el-col>
-									<el-col :span="6">
-										<div class="grid-content bg-purple">
-											<el-radio v-model="radio" label="恒力大酒店">恒力大酒店</el-radio>
-										</div>
-									</el-col>
-									<el-col :span="6">
-										<div class="grid-content bg-purple">
-											<el-radio v-model="radio" label="苏源酒楼">苏源酒楼</el-radio>
-										</div>
-									</el-col>
-								</el-row>
-								<el-row>
-									<el-button type="primary" @click="setHotelChoosed">选择</el-button>
-								</el-row>
-								<el-row></el-row>
-								<el-row>
-									你选择了：{{this.HotelChoosed}}
-								</el-row>
-								<el-row>
-									<br />
-								</el-row>
-								<el-row :gutter="20">
-									<el-col :span="6">
-										北京烤鸭
-									</el-col>
-									<el-col :span="12">
-										<el-progress :text-inside="true" :stroke-width="25" :percentage="70"></el-progress>
+									<el-col :span="8">
 									</el-col>
 								</el-row>
 								<el-row :gutter="20">
-									<el-col :span="6">
-										恒力大酒店
+									<el-col :span="16" style="text-align: right;">
+										<span>yyyy:mm:dd</span>
 									</el-col>
-									<el-col :span="12">
-										<el-progress :text-inside="true" :stroke-width="25" :percentage="60"></el-progress>
-									</el-col>
-								</el-row>
-								<el-row :gutter="20">
-									<el-col :span="6">
-										项家庄
-									</el-col>
-									<el-col :span="12">
-										<el-progress :text-inside="true" :stroke-width="25" :percentage="50"></el-progress>
+									<el-col :span="8">
+										<el-button type="primary" round>发布</el-button>
 									</el-col>
 								</el-row>
-								<el-row :gutter="20">
-									<el-col :span="6">
-										苏源酒楼
-									</el-col>
-									<el-col :span="12">
-										<el-progress :text-inside="true" :stroke-width="25" :percentage="40"></el-progress>
-									</el-col>
-								</el-row>
-							</el-main>
-						</el-tab-pane>
-						<el-tab-pane label="选择桌次">
-							<el-main>
-								<div class="show_table">
-									<el-table :data="tableData" height="400" border style="width: 100%;height: 400px;">
-										<el-table-column prop="date" label="日期" width="180">
-										</el-table-column>
-									</el-table>
-									<span>1号桌</span>
-								</div>
-								<div class="show_table">
-									<el-table :data="tableData" height="400" border style="width: 100%;height: 400px;">
-										<el-table-column prop="date" label="日期" width="180">
-										</el-table-column>
-									</el-table>
-									<span>2号桌</span>
-								</div>
-								<div class="show_table">
-									<el-table :data="tableData" height="400" border style="width: 100%;height: 400px;">
-										<el-table-column prop="date" label="日期" width="180">
-										</el-table-column>
-									</el-table>
-									<span>3号桌</span>
-								</div>
-								
-
-
 
 							</el-main>
 						</el-tab-pane>
-						<el-tab-pane label="签到与缴费">
-							<el-main>4</el-main>
+						<el-tab-pane label="酒店投票结果">
+							<el-main>
+							</el-main>
+						</el-tab-pane>
+						<el-tab-pane label="桌次选择结果">
+							<el-main>
+							</el-main>
 						</el-tab-pane>
 					</el-tabs>
 				</el-container>
@@ -144,59 +59,9 @@
 			el: '#app',
 			data: function() {
 				return {
-					visible: false,
-					tabPosition: 'top',
-					radio: '项家庄',
-					HotelChoosed: '',
-					tableData: [{
-						date: '2016-05-02',
-					}, {
-						date: '2016-05-04',
-					}, {
-						date: '2016-05-01',
-					}, {
-						date: '2016-05-03',
-					}, {
-						date: '2016-05-03',
-					}, {
-						date: '2016-05-03',
-					}, {
-						date: '2016-05-03',
-					}, {
-						date: '2016-05-03',
-					}, {
-						date: '2016-05-03',
-					}, {
-						date: '2016-05-03',
-					},
-					]
-				}
-			},
-
-			methods: {
-				setHotelChoosed() {
-					this.$confirm('你选择的是' + this.radio, '提示', {
-						confirmButtonText: '确定',
-						cancelButtonText: '取消',
-						type: 'warning'
-					}).then(() => {
-						this.HotelChoosed = this.radio
-						this.$message({
-							type: 'success',
-							message: '成功!'
-						});
-					}).catch(() => {
-						this.$message({
-							type: 'info',
-							message: '已取消'
-						});
-					});
-
+					toDay:'',
 				}
 			}
-		});
-	</script>
-	<script>
-
+		})
 	</script>
 </html>

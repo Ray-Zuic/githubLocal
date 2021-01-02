@@ -28,21 +28,87 @@
 								</el-row>
 								<el-row :gutter="20">
 									<el-col :span="16" style="text-align: right;">
-										<span>yyyy:mm:dd</span>
+										<div class="block">
+											<div class="demonstration">&nbsp;{{ value2 }}</div>
+											<el-date-picker v-model="value2" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd">
+											</el-date-picker>
+										</div>
 									</el-col>
 									<el-col :span="8">
 										<el-button type="primary" round>发布</el-button>
 									</el-col>
 								</el-row>
-
+								<el-row :gutter="20">
+									<div style="text-align: left;">
+										<span>2020-12-20</span>
+										<br />
+										<span>&emsp;&emsp;青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪</span>
+										<el-divider></el-divider>
+										<span>2020-12-20</span>
+										<br />
+										<span>&emsp;&emsp;青春是一个短暂的美梦, 当你醒来时, 它早已消失无踪</span>
+										<el-divider></el-divider>
+									</div>
+								</el-row>
 							</el-main>
 						</el-tab-pane>
 						<el-tab-pane label="酒店投票结果">
 							<el-main>
+								<el-row :gutter="20">
+									<el-col :span="6">
+										北京烤鸭
+									</el-col>
+									<el-col :span="12">
+										<el-progress :text-inside="true" :stroke-width="25" :percentage="70"></el-progress>
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<el-col :span="6">
+										恒力大酒店
+									</el-col>
+									<el-col :span="12">
+										<el-progress :text-inside="true" :stroke-width="25" :percentage="60"></el-progress>
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<el-col :span="6">
+										项家庄
+									</el-col>
+									<el-col :span="12">
+										<el-progress :text-inside="true" :stroke-width="25" :percentage="50"></el-progress>
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<el-col :span="6">
+										苏源酒楼
+									</el-col>
+									<el-col :span="12">
+										<el-progress :text-inside="true" :stroke-width="25" :percentage="40"></el-progress>
+									</el-col>
+								</el-row>
+
 							</el-main>
 						</el-tab-pane>
 						<el-tab-pane label="桌次选择结果">
 							<el-main>
+								<div class="show_table">
+									<el-table :data="tableData" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="date" label="1号桌" width="180">
+										</el-table-column>
+									</el-table>
+								</div>
+								<div class="show_table">
+									<el-table :data="tableData" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="date" label="2号桌" width="180">
+										</el-table-column>
+									</el-table>
+								</div>
+								<div class="show_table">
+									<el-table :data="tableData" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="date" label="3号桌" width="180">
+										</el-table-column>
+									</el-table>
+								</div>
 							</el-main>
 						</el-tab-pane>
 					</el-tabs>
@@ -59,7 +125,30 @@
 			el: '#app',
 			data: function() {
 				return {
-					toDay:'',
+					toDay: '',
+					value2: '',
+					tableData: [{
+						date: '2016-05-02',
+					}, {
+						date: '2016-05-04',
+					}, {
+						date: '2016-05-01',
+					}, {
+						date: '2016-05-03',
+					}, {
+						date: '2016-05-03',
+					}, {
+						date: '2016-05-03',
+					}, {
+						date: '2016-05-03',
+					}, {
+						date: '2016-05-03',
+					}, {
+						date: '2016-05-03',
+					}, {
+						date: '2016-05-03',
+					},
+					]
 				}
 			}
 		})

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/user.css" />
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<!-- 引入组件库 -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<el-container>
+
+				<el-container class="m-container">
+					<el-header>2021年ᕕ( ᐛ )ᕗ班第一次聚会</el-header>
+					<el-tabs :tab-position="tabPosition" style="height: 200px;">
+						<el-tab-pane label="发布公告通知">
+							<el-main>
+								<el-row :gutter="20">
+									<el-col :span="16">
+										<el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="textarea">
+										</el-input>
+									</el-col>
+									<el-col :span="8">
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<el-col :span="16" style="text-align: right;">
+									</el-col>
+									<el-col :span="8">
+										<el-button type="primary" round @click="publish">发布</el-button>
+									</el-col>
+									<el-col :span="8">
+										<el-button type="primary" round @click="res">刷新</el-button>
+									</el-col>
+								</el-row>
+								<el-row :gutter="20">
+									<div style="text-align: left;">
+										<div v-for="(info) in infoData">
+										<span>{{info.date}}</span>
+										<br />
+										<span>&emsp;&emsp;{{info.context}}</span>
+										<el-divider></el-divider>
+										</div>
+									</div>
+								</el-row>
+							</el-main>
+						</el-tab-pane>
+						<el-tab-pane label="酒店投票结果">
+							<el-main>
+								<el-row :gutter="20" v-for="(item) in hotelsResult" >
+									<el-col :span="6">
+										{{item.hotelname}}
+									</el-col>
+									<el-col :span="12">
+									- - - - - - - - - - - - - - - - - - - - - - {{item.count}}
+									</el-col>
+								</el-row>
+
+							</el-main>
+						</el-tab-pane>
+						<el-tab-pane label="桌次选择结果">
+							<el-main>
+								<div class="show_table">
+									<el-table :data="tableData1" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="userName" label="1号桌" width="180">
+										</el-table-column>
+									</el-table>
+									
+								</div>
+								<div class="show_table">
+									<el-table :data="tableData2" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="userName" label="2号桌" width="180">
+										</el-table-column>
+									</el-table>
+									
+								</div>
+								<div class="show_table">
+									<el-table :data="tableData3" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="userName" label="3号桌" width="180">
+										</el-table-column>
+									</el-table>
+									
+								</div>
+							</el-main>
+						</el-tab-pane>
+					</el-tabs>
+				</el-container>
+			</el-container>
+		</div>
+	</body>
+	<!-- import Vue before Element -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<!-- import JavaScript -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					textarea:'',
+					tableData: [],
+					infoData:[],
+					hotelsResult:[],
+					tableData1: [],
+					tableData2: [],
+					tableData3: [],
+				}
+			},
+	        mounted() {
+	            // 
+	            const url = 'http://localhost:8080/meal/showinfo.do';
+	            
+	            axios.get(url).then(
+	                response => {
+	                    const result = response.data;
+	                    this.infoData = result;
+	                    console.log(result);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败');
+	                },
+	            );
+	            
+	            
+	            const url3 = 'http://localhost:8080/meal/showhotelres.do';
+	            
+	            axios.get(url3).then(
+	                response => {
+	                    const result = response.data;
+	                    this.hotelsResult = result;
+	                    console.log(result);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败3');
+	                },
+	            );
+	            
+	            const url4 = 'http://localhost:8080/meal/showdesk.do';
+	            
+	            axios.get(url4).then(
+	                response => {
+	                    const result = response.data;
+	                    //this.td = result;
+	                    this.tableData1 = result.filter((item)=> item.DeskNo === 1);
+	                    this.tableData2 = result.filter((item)=> item.DeskNo === 2);
+	                    this.tableData3 = result.filter((item)=> item.DeskNo === 3);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败4');
+	                },
+	            );
+	        },
+			methods:{
+				publish(){
+						
+					if(this.textarea===''){
+						alert("不能为空");
+					}
+					else if(this.date===''){
+						alert("不能为空");
+					}
+					else{
+						
+					this.$confirm('确定发布？', '提示', {
+			            confirmButtonText: '确定',
+			            cancelButtonText: '取消',
+			            type: 'warning'
+			          }).then(() => {
+		    		  const url = 'http://localhost:8080/meal/publish.do';
+		    		  let params = new URLSearchParams();
+						params.append('context', this.textarea);
+						axios.post(url,params)
+						.then(function(data){
+							console.log(data);
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+						
+						this.textarea=''
+			            this.$message({
+			              type: 'success',
+			              message: '添加成功!'
+			            });
+			          }).catch(() => {
+			            this.$message({
+			              type: 'info',
+			              message: '已取消添加'
+			            }); 
+			          });
+					}			
+		    	  },
+		    	  res(){
+		            const url = 'http://localhost:8080/meal/showinfo.do';
+		            
+		            axios.get(url).then(
+		                response => {
+		                    const result = response.data;
+		                    this.infoDate = result;
+		                    console.log(result);
+		                }
+		            ).catch(
+		                response => {
+		                    alert('请求失败');
+		                },
+		            );
+		    	  }
+			}
+		})
+	</script>
+</html>

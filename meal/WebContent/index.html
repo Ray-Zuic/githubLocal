@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="./css/index.css"/>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<div class="all" id="app">
+			<div class="body-box">
+				<div class="login-box">
+					<div class="input-box">
+						<label>姓名:</label>
+						<br />
+						<input type="text" v-model="name"/>
+						
+						<br/>
+						<label>密码:</label>
+						<br />
+						<input type="password" v-model="password" />
+					</div>
+					<div class="login-button">
+						<button type="button" @click="login">登 录</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+	  <!-- import JavaScript -->
+	  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	  <script>
+	    new Vue({
+	      el: '#app',
+	      data: function() {
+	        return {
+	        	visible: false,
+	        	name:'',
+	        	password:'',
+	        }
+	      },
+	      methods:{
+	    	  login(){
+	    		  const url = 'http://localhost:8080/meal/login.do';
+	    		  let params = new URLSearchParams();
+					params.append('name', this.name);
+					params.append('password',this.password);
+					axios.post(url,params)
+					.then(function(data){
+						console.log(data);
+					})
+					.catch(function(error){
+						console.log(error);
+					});
+							
+	    	  }
+	      }
+	    })
+	  </script>
+</html>

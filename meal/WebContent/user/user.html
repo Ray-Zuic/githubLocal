@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/user.css" />
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<!-- 引入组件库 -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<el-container>
+
+				<el-container class="m-container">
+					<el-header>2021年ᕕ( ᐛ )ᕗ班第一次聚会</el-header>
+					<el-tabs :tab-position="tabPosition" style="height: 200px;">
+						<el-tab-pane label="公告通知">
+							<el-main>
+								<div style="text-align: left;">
+									<div v-for="(info) in infoData">
+									<span>{{info.date}}</span>
+									<br />
+									<span>&emsp;&emsp;{{info.context}}</span>
+									<el-divider></el-divider>
+									</div>
+								</div>
+							</el-main>
+						</el-tab-pane>
+						<el-tab-pane label="投票酒店">
+							<el-main>
+								<el-row :gutter="20">
+									<el-col :span="6">
+										  <el-select v-model="AuthoCheck" placeholder="请选择">
+										    <el-option
+										       v-for="(hotel,index) in hotels"
+										      :key="hotel.id"
+										      :label="hotel.name"
+										      :value="hotel.name">
+										    </el-option>
+										  </el-select>
+									</el-col>
+
+								</el-row>
+								<el-row>
+									<el-button type="primary" @click="setHotelChoosed">选择</el-button>
+									<el-button type="primary" @click="resR">刷新</el-button>
+								</el-row>
+								<el-row></el-row>
+								<el-row>
+										
+								</el-row>
+								<el-row>
+									<br />
+								</el-row>
+								<el-row :gutter="20" v-for="(item) in hotelsResult" >
+									<el-col :span="6">
+										{{item.hotelname}}
+									</el-col>
+									<el-col :span="12">
+										{{item.count}}
+									</el-col>
+								</el-row>
+							</el-main>
+						</el-tab-pane>
+						<el-tab-pane label="选择桌次">
+							<el-main>
+								<div class="show_table">
+									<el-table :data="tableData1" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="userName" label="1号桌" width="180">
+										</el-table-column>
+									</el-table>
+									
+								</div>
+								<div class="show_table">
+									<el-table :data="tableData2" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="userName" label="2号桌" width="180">
+										</el-table-column>
+									</el-table>
+									
+								</div>
+								<div class="show_table">
+									<el-table :data="tableData3" height="400" border style="width: 100%;height: 400px;">
+										<el-table-column prop="userName" label="3号桌" width="180">
+										</el-table-column>
+									</el-table>
+									
+								</div>
+								<el-select v-model="tableNo" placeholder="请选择">
+										    <el-option
+										      v-for="item in options"
+										      :key="item.value"
+										      :label="item.label"
+										      :value="item.value">
+										    </el-option>
+								</el-select>
+							<el-button type="primary" @click="resD">刷新</el-button>
+							<el-button type="primary" @click="setTablelChoosed">选择</el-button>
+							<br>
+								<el-row>
+									你选择了：{{this.TablelChoosed}}
+								</el-row>
+							</el-main>
+						</el-tab-pane>
+					</el-tabs>
+				</el-container>
+			</el-container>
+		</div>
+	</body>
+	<!-- import Vue before Element -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<!-- import JavaScript -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					visible: false,
+					tabPosition: 'top',
+					AuthoCheck:'项家庄',
+					tableNo:'',
+					HotelChoosed: '',
+					TablelChoosed:'',
+					tableData1: [],
+					tableData2: [],
+					tableData3: [],
+					infoData:[],
+					hotels:[],
+					hotelsResult:[],
+					options:[{
+						label:'一号桌',
+						value:'1',
+					},{
+						label:'二号桌',
+						value:'2',
+					},{
+						label:'三号桌',
+						value:'3',
+					}],
+				}
+			},
+	        mounted() {
+	            // 发ajax请求，用以获取数据，此处地址意思是查询 github中 vue 星数最高的项目
+	            const url = 'http://localhost:8080/meal/showinfo.do';
+	            
+	            axios.get(url).then(
+	                response => {
+	                    const result = response.data;
+	                    this.infoData = result;
+	                    console.log(result);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败');
+	                },
+	            );
+	            
+	            const url2 = 'http://localhost:8080/meal/showhotel.do';
+	            
+	            axios.get(url2).then(
+	                response => {
+	                    const result = response.data;
+	                    this.hotels = result;
+	                    console.log(result);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败2');
+	                },
+	            );
+	            
+	            const url3 = 'http://localhost:8080/meal/showhotelres.do';
+	            
+	            axios.get(url3).then(
+	                response => {
+	                    const result = response.data;
+	                    this.hotelsResult = result;
+	                    console.log(result);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败3');
+	                },
+	            );
+	            
+	            const url4 = 'http://localhost:8080/meal/showdesk.do';
+	            
+	            axios.get(url4).then(
+	                response => {
+	                    const result = response.data;
+	                    //this.td = result;
+	                    this.tableData1 = result.filter((item)=> item.DeskNo === 1);
+	                    this.tableData2 = result.filter((item)=> item.DeskNo === 2);
+	                    this.tableData3 = result.filter((item)=> item.DeskNo === 3);
+	                }
+	            ).catch(
+	                response => {
+	                    alert('请求失败4');
+	                },
+	            );
+	        },
+			methods: {
+				setHotelChoosed() {
+					if(this.AuthoCheck===null){
+						alert("请选择");
+					}else{
+						this.$confirm('你选择的是' + this.AuthoCheck, '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							
+							this.HotelChoosed = this.AuthoCheck
+							const url = 'http://localhost:8080/meal/selectHotel.do';
+			    		    let params = new URLSearchParams();
+							params.append('hotelname', this.HotelChoosed);
+							axios.post(url,params)
+							.then(function(data){
+								console.log(data);
+							})
+							.catch(function(error){
+								console.log(error);
+							});
+							
+							
+							this.$message({
+								type: 'success',
+								message: '成功!'
+							});
+						}).catch(() => {
+							this.$message({
+								type: 'info',
+								message: '已取消'
+							});
+						});
+					}
+				},
+				
+				
+				setTablelChoosed() {
+					if(this.tableNo===''){
+						alert("请选择桌子");
+					}else{
+						this.$confirm('你选择的是' + this.tableNo+'号桌', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							this.TablelChoosed = this.tableNo
+							
+							const url = 'http://localhost:8080/meal/chooseDesk.do';
+			    		    let params = new URLSearchParams();
+							params.append('tableno', this.TablelChoosed);
+							axios.post(url,params)
+							.then(function(data){
+								console.log(data);
+							})
+							.catch(function(error){
+								console.log(error);
+							});
+							
+
+							this.$message({
+								type: 'success',
+								message: '成功!'
+							});
+						}).catch(() => {
+							this.$message({
+								type: 'info',
+								message: '已取消'
+							});
+						});
+					}
+				},
+				resR(){
+		            const url3 = 'http://localhost:8080/meal/showhotelres.do';
+		            
+		            axios.get(url3).then(
+		                response => {
+		                    const result = response.data;
+		                    this.hotelsResult = result;
+		                    console.log(result);
+		                }
+		            ).catch(
+		                response => {
+		                    alert('请求失败3');
+		                },
+		            );
+				},
+				resD(){
+		            const url4 = 'http://localhost:8080/meal/showdesk.do';
+		            
+		            axios.get(url4).then(
+		                response => {
+		                    const result = response.data;
+		                    //this.td = result;
+		                    this.tableData1 = result.filter((item)=> item.DeskNo === 1);
+		                    this.tableData2 = result.filter((item)=> item.DeskNo === 2);
+		                    this.tableData3 = result.filter((item)=> item.DeskNo === 3);
+		                }
+		            ).catch(
+		                response => {
+		                    alert('请求失败4');
+		                },
+		            );
+				}
+			}
+		});
+	</script>
+	<script>
+
+	</script>
+</html>

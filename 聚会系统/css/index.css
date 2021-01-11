@@ -18,6 +18,13 @@ body{
 	margin-top: 100px;
 	border: 1px solid gainsboro;
 }
+.register-box{
+	width: 1000px;
+	height: 400px;
+	margin:0 auto;
+	margin-top: 100px;
+	border: 1px solid gainsboro;
+}
 .input-box{
 	padding-top: 80px;
 	width: 300px;
@@ -38,7 +45,8 @@ input{
 .login-button{
 	width: 250px;
 	height: 100%;
-	margin: 0 auto;
+	margin-right: 50px;
+	float: right;
 	
 }
 button{
@@ -47,4 +55,34 @@ button{
 	height: 25px;
 	margin-bottom: 10px;
 	
+}
+
+.btn{
+	display: block;
+	width: 250px;
+	height: 40px;
+	margin-bottom: 10px;
+	background-color: dodgerblue;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	line-height: 40px;
+}
+.btn:hover{
+	background-color:#296dff;
+	cursor: pointer;
+}
+a{
+	text-decoration: none;
+}
+.register-input-box{
+	padding-top: 80px;
+	width: 320px;
+	height: 220px;
+	float: left;
+	margin-left: 50px;
+}
+
+.notice{
+	color: red;
 }

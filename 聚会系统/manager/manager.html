@@ -86,7 +86,31 @@
 										<el-progress :text-inside="true" :stroke-width="25" :percentage="40"></el-progress>
 									</el-col>
 								</el-row>
-
+								<el-row>
+									<div style="margin: 20px 0;"></div>
+									<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+										<el-col :span="3" v-for="city in cities">
+											<el-checkbox style="margin-bottom: 10px;" :label="city" :key="city" border>{{city}}</el-checkbox>
+										</el-col>
+									</el-checkbox-group>
+								</el-row>
+								<el-row>
+									<el-col :span="3">
+										<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" border>全选</el-checkbox>
+									</el-col>
+									<el-col :span="3">
+										<el-button type="danger" @click="delSelectHotel">删除选中</el-button>
+									</el-col>
+									<el-col :span="3">
+										<br>
+									</el-col>
+									<el-col :span="3">
+										<el-input placeholder="请输入酒店名称" v-model="addHotel" clearable />
+									</el-col>
+									<el-col :span="3">
+										<el-button type="primary" @click="addh">添加</el-button>
+									</el-col>
+								</el-row>
 							</el-main>
 						</el-tab-pane>
 						<el-tab-pane label="桌次选择结果">
@@ -121,8 +145,10 @@
 	<!-- import JavaScript -->
 	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 	<script>
+		const cityOptions = ['上海', '北京', '广州', '深圳', '徐州', '连云港', '宿迁', '南京', '淮安', '盐城', '泰州'];
 		new Vue({
 			el: '#app',
+
 			data: function() {
 				return {
 					toDay: '',
@@ -147,8 +173,66 @@
 						date: '2016-05-03',
 					}, {
 						date: '2016-05-03',
-					},
-					]
+					}, ],
+
+					//多选框
+					checkAll: false,
+					checkedCities: ['上海', '北京'],
+					cities: cityOptions,
+					isIndeterminate: true,
+
+					//添加酒店
+					addHotel: '',
+
+				}
+			},
+			methods: {
+				handleCheckAllChange(val) {
+					this.checkedCities = val ? cityOptions : [];
+					this.isIndeterminate = false;
+				},
+				handleCheckedCitiesChange(value) {
+					let checkedCount = value.length;
+					this.checkAll = checkedCount === this.cities.length;
+					this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+				},
+				delSelectHotel() {
+					if (this.checkedCities === null) {
+						alert("请选择要删除的酒店");
+					} else {
+						this.$confirm('即将删除:' + this.checkedCities, '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							});
+
+						}).catch(() => {
+							this.$message({
+								type: 'info',
+								message: '已取消删除'
+							});
+						});
+					}
+				},
+				addh(){
+					const flag = true;
+					if(this.addHotel===''){
+						alert("请输入酒店名称！");
+						return;
+					}
+					for(let i=0;i<this.cities.length;i++){
+						if(this.cities[i]===this.addHotel){
+							alert(this.addHotel+"已存在，请勿重复添加!");
+							flag = false;
+						}
+					}
+					if(flag){
+						alert("添加成功！");
+					}
 				}
 			}
 		})

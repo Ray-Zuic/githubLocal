@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+	</head>
+	<body>
+		<div class="all" id="app">
+			<div class="body-box">
+				<div class="register-box">
+					<div class="register-input-box">
+						<label>账号:（仅英文，数字）</label>
+						<label class="notice">{{acno}}</label>
+						<!-- 判断是否重复注册-->
+						<br />
+						<input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"/>
+
+						<br />
+						<label>姓名:</label>
+						<br />
+						<input type="text" name="" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"/>
+					</div>
+					<div class="register-input-box">
+						<label>密码:（仅英文，数字）</label>
+						<br />
+						<input type="password" v-model="pwd1" @blur.prevent="check()"/>
+					
+						<br />
+						<label>确认密码:</label>
+						<br />
+						<input type="password" name=""  v-model="pwd2" @blur.prevent="check()"/>
+						<br/>
+						<span class="notice">&nbsp;{{notice}}</span>
+					</div>
+					<div class="login-button">
+						<div class="btn" @click="reg()">
+							注&emsp;&emsp;&emsp;册
+						</div>
+					</div>
+				</div>
+			</div>
+
+	</body>
+
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<!-- import JavaScript -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					visible: false,
+					ac:'',
+					acno:'账号重复',
+					name:'',
+					pwd1:'',
+					pwd2:'',
+					notice:'',
+				}
+			},
+			methods:{
+				check(){
+					if(this.pwd1!=this.pwd2)
+						this.notice='两次输入的密码值不同';
+					else
+						this.notice='';
+				},
+				reg(){
+					if(this.ac===''||this.name===''||this.pwd1===''||this.notice!=''||this.acno!=''){
+						alert("请输入正确的信息!")
+					}else{
+						
+					}
+				}
+			}
+		})
+	</script>
+</html>

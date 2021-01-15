@@ -29,4 +29,6 @@ public interface UserOperateDao {
 	void updateD(Desk d)throws SQLException;
 	
 	List <Desk> showDesks()throws SQLException;
+	
+	void reg(User user)throws SQLException;
 }

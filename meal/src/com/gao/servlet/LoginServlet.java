@@ -58,6 +58,7 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -73,15 +74,15 @@ public class LoginServlet extends HttpServlet {
 		
 		UserOperateService ups = new UserOperateServiceImpl();
 		User user = new User();
-		String name = request.getParameter("name");
+		String account = request.getParameter("account");
 		String pwd = request.getParameter("password");
 		
 		user.setPassword(pwd);
-		user.setUsername(name);
+		user.setAccount(account);
 		
-		System.out.print(name+" "+pwd);
+		System.out.print(account+" "+pwd);
 		
-		User reu = ups.login(name);
+		User reu = ups.login(account);
 		if(reu!=null) {
 			
 			System.out.print(reu.toString());
@@ -148,7 +149,7 @@ public class LoginServlet extends HttpServlet {
 		Gson gson = new Gson();
 		//将获取的数据以json形式发送至前端
 		String result = gson.toJson(infos);
-		System.out.print(result);
+
 		response.getWriter().write(result);
 	}
 	
@@ -162,7 +163,7 @@ public class LoginServlet extends HttpServlet {
 		Gson gson = new Gson();
 		//将获取的数据以json形式发送至前端
 		String result = gson.toJson(infos);
-		System.out.print(result);
+
 		response.getWriter().write(result);
 	}
 	
@@ -203,7 +204,7 @@ public class LoginServlet extends HttpServlet {
 		Gson gson = new Gson();
 		//将获取的数据以json形式发送至前端
 		String result = gson.toJson(infos);
-		System.out.print(result);
+
 		response.getWriter().write(result);
 	}
 	
@@ -246,7 +247,87 @@ public class LoginServlet extends HttpServlet {
 		Gson gson = new Gson();
 		//将获取的数据以json形式发送至前端
 		String result = gson.toJson(infos);
+
+		response.getWriter().write(result);
+	}
+	
+	
+	private void addHotel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		
+		ManagerOperateService mos = new ManagerOperateServiceImpl();
+		String name = request.getParameter("hotelname");
+		
+		mos.addHotel(name);
+	}
+	
+	private void delHotel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		
+		ManagerOperateService mos = new ManagerOperateServiceImpl();
+		String d = request.getParameter("delHotels");
+		
+		String [] delHotels = d.split(",");
+		
+		for(String delHotel:delHotels) {
+			System.out.println(delHotel);
+			mos.delHotel(delHotel);
+			mos.delAllHotelVote(delHotel);
+			//mos.delHotelVote(delHotel);删掉投票表中的数据
+		}
+		
+		
+	}
+	
+	private void getHotels(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("application/json; charset=utf-8");
+		
+		ManagerOperateService mos = new ManagerOperateServiceImpl();
+		List <Hotel> HotelList = mos.getHotelList();
+		
+		Gson gson = new Gson();
+		//将获取的数据以json形式发送至前端
+		String result = gson.toJson(HotelList);
 		System.out.print(result);
 		response.getWriter().write(result);
+	}
+	
+	
+	private void checkUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("application/json; charset=utf-8");
+		
+		ManagerOperateService mos = new ManagerOperateServiceImpl();
+		
+		String name = request.getParameter("name");
+		User user = mos.checkUser(name);
+		
+		Gson gson = new Gson();
+		//将获取的数据以json形式发送至前端
+		String result = gson.toJson(user);
+		System.out.print(result);
+		response.getWriter().write(result);
+	}
+	
+	private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("application/json; charset=utf-8");
+		
+		UserOperateService uos = new UserOperateServiceImpl();
+		User user = new User();
+		
+		System.out.print(request.getParameter("username"));
+		
+		user.setAccount(request.getParameter("account"));
+		user.setUsername(request.getParameter("username"));
+		user.setPassword(request.getParameter("password"));
+		
+		uos.reg(user);
+		
+		response.sendRedirect("index.jsp");
+		
 	}
 }

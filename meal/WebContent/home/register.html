@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+	</head>
+	<video width="100%" autoplay loop preload muted x-webkit-airplay="true" airplay="allow" webkit-playsinline="true" playsinline="true" src="../video/banner_video.mp4" class="video1 video"></video>
+	
+	<body>
+		<div class="head_con">
+			<ul class="menu_list">
+				<li class="menu_item">项目成员：</li>
+				<li class="menu_item">高琛皓</li>
+				<li class="menu_item">时家庆</li>
+				<li class="menu_item">王浩杰</li>
+				<li class="menu_item">黄翔</li>
+			</ul>
+		</div>
+		<div class="all" id="app">
+			<div class="body-box">
+				<div class="register-box">
+					<form  method="post">
+						<div class="register-input-box">
+							<label>账号:（12位英文，数字）</label>
+							<label class="notice">{{acno}}</label>
+							<!-- 判断是否重复注册-->
+							<br />
+							<input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" maxlength="12" v-model="account" @blur="checkAC" name="account"/>
+	
+							<br />
+							<label>姓名:</label>
+							<br />
+							<input type="text" name="" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" name="username"/>
+						</div>
+						<div class="register-input-box">
+							<label>密码:（仅英文，数字）</label>
+							<br />
+							<input type="password" v-model="pwd1" @blur.prevent="check()" name="password"/>
+						
+							<br />
+							<label>确认密码:</label>
+							<br />
+							<input type="password" name=""  v-model="pwd2" @blur.prevent="check()"/>
+							<br/>
+							<span class="notice">&nbsp;{{notice}}</span>
+						</div>
+						<div class="login-button" >
+							<input class="btn" type="submit" value="注册">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	  <!-- import JavaScript -->
+	  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					visible: false,
+					ac:'',
+					acno:'',
+					name:'',
+					pwd1:'',
+					pwd2:'',
+					notice:'',
+					account:'',
+				}
+			},
+			methods:{
+				check(){
+					if(this.pwd1!=this.pwd2)
+						this.notice='两次输入的密码值不同';
+					else
+						this.notice='';
+				},
+				reg(){
+					alert("aaa");
+				},
+				checkAC(){
+					const url = 'http://localhost:8080/meal/checkUser.do';
+	    		    let params = new URLSearchParams();
+					params.append('name', this.account);
+					axios.post(url,params)
+					.then(function(data){
+						const result = data.data;
+						if(result!=null){
+							this.account = result.username;
+							alert("账号重复");
+							this.acno="账号重复";
+							console.log(this.acno);
+						}
+						else{
+							console.log(result);
+							this.account = null;	
+							this.acno="";
+							console.log(this.acno);
+						}
+
+						
+					})
+					.catch(function(error){
+						console.log(error);
+					});
+				},
+				reg(){
+					
+				}
+			}
+		})
+	</script>
+</html>

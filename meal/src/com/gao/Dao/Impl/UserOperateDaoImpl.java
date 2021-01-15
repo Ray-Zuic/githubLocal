@@ -21,7 +21,7 @@ public class UserOperateDaoImpl implements UserOperateDao {
 	@Override
 	public User login(String name) throws SQLException {
 		// TODO Auto-generated method stub
-		String sql = "select * from user where username=?";		
+		String sql = "select * from user where account=?";		
 		return JdbcTemplate.selectOne(sql, new UserRowMapper(), name);
 	}
 
@@ -93,6 +93,13 @@ public class UserOperateDaoImpl implements UserOperateDao {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * FROM desk ORDER BY deskno";
 		return JdbcTemplate.selectList(sql, new DeskRowMapper());
+	}
+
+	@Override
+	public void reg(User user) throws SQLException {
+		// TODO Auto-generated method stub
+		String  sql = "insert into user (username,password,mark,account) values(?,?,1,?)";
+		JdbcTemplate.insert(sql, user.getUsername(),user.getPassword(),user.getAccount());
 	}
 
 }

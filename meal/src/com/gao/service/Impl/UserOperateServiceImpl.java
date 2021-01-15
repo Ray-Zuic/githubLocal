@@ -167,5 +167,16 @@ public class UserOperateServiceImpl implements UserOperateService {
 		}
 		return HotelList;
 	}
-
+	@Override
+	public void reg(User user) {
+		// TODO Auto-generated method stub
+		tx.begin();
+		try {
+			userDao.reg(user);
+			tx.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

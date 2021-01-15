@@ -3,6 +3,13 @@ package com.gao.entity;
 public class User {
 	
 	private int id;
+	private String account;
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
 	private String username;
 	private String password;
 	private int mark;
@@ -32,7 +39,8 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", mark=" + mark + "]";
+		return "User [id=" + id + ", account=" + account + ", username=" + username + ", password=" + password
+				+ ", mark=" + mark + "]";
 	}
-
+	
 }

@@ -1,13 +1,24 @@
 body{
 	margin: 0;
+	padding:0;
 }
 .all{
-	width: 100%;
-	height: 100%;
+    display: block;
+    width: 640px;
+    height: 81px;
+    position: absolute;
+    left: 80%;
+    top: 10%;
+    z-index: 2;
+    text-align: center;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    font-family: 'TencentSansw3';
+    letter-spacing: 18px;
 }
 .body-box{
-	width: 1280px;
-	height: 720px;
+	width: 350px;
+	height: 400px;
 	margin: 0 auto;
 }
 .login-box{
@@ -17,6 +28,17 @@ body{
 	margin-right: 50px;
 	margin-top: 100px;
 	border: 1px solid gainsboro;
+	border-radius: 25px;
+}
+.register-box{
+	width: 1000px;
+	height: 400px;
+	margin:0 auto;
+	margin-top: 100px;
+	border: 1px solid gainsboro;
+	position:absolute;
+	left:-800px;
+	top:100px;
 }
 .input-box{
 	padding-top: 80px;
@@ -38,7 +60,8 @@ input{
 .login-button{
 	width: 250px;
 	height: 100%;
-	margin: 0 auto;
+	margin-right: 50px;
+	float: right;
 	
 }
 button{
@@ -47,4 +70,130 @@ button{
 	height: 25px;
 	margin-bottom: 10px;
 	
+}
+.btn{
+	display: block;
+	width: 115px;
+	height: 40px;
+	margin-bottom: 10px;
+	background-color: dodgerblue;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	line-height: 40px;
+	float: left;
+	margin:4px;
+}
+.reg{
+	padding-left:10px;
+}
+.btn:hover{
+	background-color:#296dff;
+	cursor: pointer;
+}
+a{
+	text-decoration: none;
+}
+.register-input-box{
+	padding-top: 80px;
+	width: 320px;
+	height: 220px;
+	float: left;
+	margin-left: 50px;
+}
+
+.notice{
+	color: red;
+}
+
+video {
+    object-fit: contain;
+}
+video1 {
+    	width:100%;
+    	height: 780px;
+    	position: absolute;
+    	top: 0;
+    	left: 50%;
+	margin-left: -1280px;
+	z-index: 1;
+}
+.head_con {
+    display: block;
+    width: 1200px;
+    height: 72px;
+    margin: 0px auto;
+    position: absolute;
+    left:-200px;
+    top:10px;
+    z-index: 999;
+}
+.menu_list {
+    display: block;
+    height: 72px;
+    position: absolute;
+    right: 220px;
+    top: 0px;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s linear;
+    transform: translate(0px,0);
+}
+ul, li {
+    list-style: none;
+}
+.menu_list .menu_item {
+    display: inline-block;
+    height: 72px;
+    float: left;
+    color:#FFF;
+    font-size:20px;
+    font-family:"ËÎÌו";
+    margin-left: 72px;
+    position: relative;
+}
+.banner_txt {
+    display: block;
+    width: 640px;
+    height: 81px;
+    position: absolute;
+    left: 30%;
+    top: 35%;
+    z-index: 2;
+    text-align: center;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    font-family: 'TencentSansw3';
+    letter-spacing: 18px;
+}
+.banner_txt p {
+    display: inline-block;
+    color: #fff;
+    font-size: 54px;
+}
+.descript_area {
+    display: block;
+    width: 100%;
+    position:fixed;
+    top:75%;
+}
+.descript_area .txt {
+    text-align: center;
+    font-size: 24px;
+    color: #5f6464;
+    line-height: 54px;
+    padding: 105px 0 74px;
+    font-family: 'ysxk';
+}
+
+@font-face {
+  font-family: 'ysxk';
+  src: url('../font/ysxk.ttf');
+  src:
+    url('../font/ysxk.eot?#font-spider') format('embedded-opentype'),
+    url('../font/ysxk.woff') format('woff'),
+    url('../font/ysxk.ttf') format('truetype'),
+    url('../font/ysxk.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }

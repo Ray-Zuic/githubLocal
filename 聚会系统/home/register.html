@@ -11,11 +11,11 @@
 			<div class="body-box">
 				<div class="register-box">
 					<div class="register-input-box">
-						<label>账号:（仅英文，数字）</label>
+						<label>账号:（12位英文，数字）</label>
 						<label class="notice">{{acno}}</label>
 						<!-- 判断是否重复注册-->
 						<br />
-						<input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"/>
+						<input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" maxlength="12"  @blur="chechAC"/>
 
 						<br />
 						<label>姓名:</label>
@@ -44,9 +44,9 @@
 
 	</body>
 
-	<script src="https://unpkg.com/vue/dist/vue.js"></script>
-	<!-- import JavaScript -->
-	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+	  <!-- import JavaScript -->
+	  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 	<script>
 		new Vue({
 			el: '#app',
@@ -74,6 +74,9 @@
 					}else{
 						
 					}
+				},
+				checkAC(){
+					alert("asd");
 				}
 			}
 		})

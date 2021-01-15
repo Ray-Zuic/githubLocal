@@ -27,4 +27,6 @@ public interface UserOperateService {
 	void updateD(Desk d);
 	
 	List<Desk> showDesks();
+	
+	void reg(User user);
 }

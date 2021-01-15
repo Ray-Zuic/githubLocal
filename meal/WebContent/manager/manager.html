@@ -59,8 +59,38 @@
 									- - - - - - - - - - - - - - - - - - - - - - {{item.count}}
 									</el-col>
 								</el-row>
-
+								<el-row>
+									<div style="margin: 20px 0;"></div>
+									<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+										<el-col :span="3" v-for="city in cities">
+											<el-checkbox style="margin-bottom: 10px;" :label="city" :key="city" border>{{city}}</el-checkbox>
+										</el-col>
+									</el-checkbox-group>
+								</el-row>
+								<el-row>
+									<el-col :span="3">
+										<!--  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" border>全选</el-checkbox>-->
+										<br/>
+									</el-col>
+									<el-col :span="3">
+										<el-button type="danger" @click="delSelectHotel">删除选中</el-button>
+									</el-col>
+									<el-col :span="3">
+										<br>
+									</el-col>
+									<el-col :span="3">
+										<el-input placeholder="请输入酒店名称" v-model="addHotel" clearable />
+									</el-col>
+									<el-col :span="3">
+										<el-button type="primary" @click="addh">添加</el-button>
+									</el-col>
+									<el-col :span="3">
+										<el-button type="primary" @click="resHotel">刷新</el-button>
+									</el-col>
+								</el-row>
+							
 							</el-main>
+							
 						</el-tab-pane>
 						<el-tab-pane label="桌次选择结果">
 							<el-main>
@@ -108,6 +138,15 @@
 					tableData1: [],
 					tableData2: [],
 					tableData3: [],
+					
+					//多选框
+					checkAll: false,
+					checkedCities: [],
+					cities: [],
+					isIndeterminate: true,
+
+					//添加酒店
+					addHotel: '',
 				}
 			},
 	        mounted() {
@@ -154,6 +193,29 @@
 	            ).catch(
 	                response => {
 	                    alert('请求失败4');
+	                },
+	            );
+	            
+	            
+	            const url5 = 'http://localhost:8080/meal/getHotels.do';
+	            
+	            axios.get(url5).then(
+	                response => {
+	                    const result = response.data;
+	                    //this.td = result;
+	                    const cc = [];
+	             		result.forEach(function(item,index){
+	             			
+	             			cc.push(item.name);
+	             			console.log(cc);
+	             		});
+	             		this.cities=cc;
+	                    console.log(result);
+	                }
+	            ).catch(
+	                response => {
+	                	console.log(this.cities);
+	                    alert('请求失败5');
 	                },
 	            );
 	        },
@@ -203,7 +265,7 @@
 		            axios.get(url).then(
 		                response => {
 		                    const result = response.data;
-		                    this.infoDate = result;
+		                    this.infoData = result;
 		                    console.log(result);
 		                }
 		            ).catch(
@@ -211,7 +273,131 @@
 		                    alert('请求失败');
 		                },
 		            );
-		    	  }
+		    	  },
+					handleCheckAllChange(val) {
+						this.checkedCities = val ? cityOptions : [];
+						this.isIndeterminate = false;
+					},
+					handleCheckedCitiesChange(value) {
+						let checkedCount = value.length;
+						this.checkAll = checkedCount === this.cities.length;
+						this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+					},
+					delSelectHotel() {
+						if (this.checkedCities === null) {
+							alert("请选择要删除的酒店");
+						} else {
+							this.$confirm('确定要删除:'+ this.checkedCities+"?", '提示', {
+								confirmButtonText: '确定',
+								cancelButtonText: '取消',
+								type: 'warning'
+							}).then(() => {
+								this.$message({
+									type: 'success',
+									message: '删除成功!',
+								});
+								const url = 'http://localhost:8080/meal/delHotel.do';
+				    		    let params = new URLSearchParams();
+								params.append('delHotels', this.checkedCities);
+								axios.post(url,params)
+								.then(function(data){
+									console.log(data);
+								})
+								.catch(function(error){
+									console.log(error);
+								});
+								
+							}).catch(() => {
+								this.$message({
+									type: 'info',
+									message: '已取消删除'
+								});
+							});
+						}
+					},
+					addh(){
+						const flag = true;
+						if(this.addHotel===''){
+							alert("请输入酒店名称！");
+							return;
+						}
+						for(let i=0;i<this.cities.length;i++){
+							if(this.cities[i]===this.addHotel){
+								alert(this.addHotel+"已存在，请勿重复添加!");
+								flag = false;
+							}
+						}
+						if(flag){
+							this.$confirm('确定要添加:'+ this.addHotel+"?", '提示', {
+								confirmButtonText: '确定',
+								cancelButtonText: '取消',
+								type: 'warning'
+							}).then(() => {
+								this.$message({
+									type: 'success',
+									message: '删除成功!',
+								});
+								const url = 'http://localhost:8080/meal/addHotel.do';
+				    		    let params = new URLSearchParams();
+								params.append('hotelname', this.addHotel);
+								axios.post(url,params)
+								.then(function(data){
+									console.log(data);
+								})
+								.catch(function(error){
+									console.log(error);
+								});
+								
+								this.addHotel='';
+								
+							}).catch(() => {
+								this.$message({
+									type: 'info',
+									message: '已取消删除'
+								});
+							});
+
+						}
+					},
+					resHotel(){
+			            const url3 = 'http://localhost:8080/meal/showhotelres.do';
+			            
+			            axios.get(url3).then(
+			                response => {
+			                    const result = response.data;
+			                    this.hotelsResult = result;
+			                    console.log(result);
+			                }
+			            ).catch(
+			                response => {
+			                    alert('请求失败3');
+			                },
+			            );
+			            
+			            const url5 = 'http://localhost:8080/meal/getHotels.do';
+			            
+			            axios.get(url5).then(
+			                response => {
+			                    const result = response.data;
+			                    //this.td = result;
+			                    const cc = [];
+			             		result.forEach(function(item,index){
+			             			
+			             			cc.push(item.name);
+			             			console.log(cc);
+			             		});
+			             		this.cities=cc;
+			                    console.log(result);
+			                }
+			            ).catch(
+			                response => {
+			                	console.log(this.cities);
+			                    alert('请求失败5');
+			                },
+			            );
+					}
+		    	  
+		    	  
 			}
 		})
 	</script>
